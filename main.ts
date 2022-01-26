@@ -51,17 +51,9 @@ basic.forever(function () {
     }
     if (input.runningTime() - msSpare > 3 * beatMs) {
         iPart = 0
-        basic.showString(getMorseLetter(morse),100)
-while (!(input.buttonIsPressed(Button.A)) && !(input.buttonIsPressed(Button.B))) {
-        	
-        }
-        images.createImage(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            `).showImage(0, 0)
+        basic.showString(morseCodes[morseCodes.indexOf(morse) + 1],100)
+        while (!(input.buttonIsPressed(Button.A)) && !(input.buttonIsPressed(Button.B))) {}
+        images.createImage(``).showImage(0, 0)
         morse = ""
     }
 })
