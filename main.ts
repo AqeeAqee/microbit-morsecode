@@ -1,16 +1,10 @@
-function getMorseLetter (s: string) {
-    // for(let i=0;i<morseCodes.length;i+=2){
-    //     if(s==morseCodes[i])
-    //         return morseCodes[i+1]
-    // }
-    return morseCodes[morseCodes.indexOf(s)+1]
-}
 let msSpare = 0
-let morse=""
-let iPart=0
-let beatMs = 80
+let morse = ""
+let OneBeat = 80
 let morseCodes = [
-    "*",
+"*",
+"",
+" ",
 ".----",
 "1",
 "..---",
@@ -30,30 +24,83 @@ let morseCodes = [
 "----.",
 "9",
 "-----",
-"0"
+"0",
+".-",
+"A",
+"-...",
+"B",
+"-.-.",
+"C",
+"-..",
+"D",
+".",
+"E",
+"..-.",
+"F",
+"--.",
+"G",
+"....",
+"H",
+"..",
+"I",
+".---",
+"J",
+"-.-",
+"K",
+".-..",
+"L",
+"--",
+"M",
+"-.",
+"N",
+"---",
+"o",
+".--.",
+"P",
+"--.-",
+"Q",
+".-.",
+"R",
+"...",
+"S",
+"-",
+"T",
+"..-",
+"U",
+"...-",
+"V",
+".--",
+"W",
+"-..-",
+"X",
+"-.--",
+"Y",
+"--..",
+"Z",
+"..--..",
+"?"
 ]
 basic.forever(function () {
     while (input.buttonIsPressed(Button.A)) {
-        music.playTone(587, beatMs)
-        music.rest(beatMs)
-        led.plot(0, iPart++)
-        msSpare = input.runningTime()
+        led.plot(0, morse.length)
+        music.playTone(587, OneBeat)
+        music.rest(OneBeat)
         morse = "" + morse + "."
+        msSpare = input.runningTime()
     }
     while (input.buttonIsPressed(Button.B)) {
-        music.playTone(587, beatMs * 3)
-        msSpare = input.runningTime()
-        led.plot(0, iPart)
-        led.plot(1, iPart)
-        led.plot(2, iPart++)
-        music.rest(beatMs)
+        led.plot(0, morse.length)
+        led.plot(1, morse.length)
+        led.plot(2, morse.length)
         morse = "" + morse + "-"
+        msSpare = input.runningTime()
+        music.playTone(587, OneBeat * 3)
+        music.rest(OneBeat)
     }
-    if (input.runningTime() - msSpare > 3 * beatMs) {
-        iPart = 0
-        basic.showString(morseCodes[morseCodes.indexOf(morse) + 1],100)
-        while (!(input.buttonIsPressed(Button.A)) && !(input.buttonIsPressed(Button.B))) {}
-        images.createImage(``).showImage(0, 0)
+    if (input.runningTime() - msSpare > 3 * OneBeat) {
+        // , 3 * OneBeat
+        basic.showString("" + (morseCodes[morseCodes.indexOf(morse) + 1]))
         morse = ""
+        basic.clearScreen()
     }
 })
