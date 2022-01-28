@@ -4,9 +4,10 @@ let iletters = 0
 let letter = ""
 radio.setGroup(10)
 hmi.initialize(DeviceType.ta, CommunicationType.radio)
-hmi.setColors(0x0000ff, 0xFFFFFF)
+hmi.setColors(0x00ff00, 0x0)
 hmi.clearScreen()
 let OneBeat = 80
+basic.showNumber(1)
 let morseCodes = [
 "*",
 ".----",
@@ -81,11 +82,13 @@ let morseCodes = [
 "Y",
 "--..",
 "Z",
-"..--..",
-"?"
+    "..--..",
+    "?",
+"......",
+    "_"
 ]
 basic.forever(function () {
-    while (input.buttonIsPressed(Button.A) && morse.length < 5) {
+    while (input.buttonIsPressed(Button.A) && morse.length < 6) {
         if (morse == "") {
             basic.clearScreen()
         }
@@ -95,7 +98,7 @@ basic.forever(function () {
         morse = "" + morse + "."
         msSpare = input.runningTime()
     }
-    while (input.buttonIsPressed(Button.B) && morse.length < 5) {
+    while (input.buttonIsPressed(Button.B) && morse.length < 6) {
         if (morse == "") {
             basic.clearScreen()
         }
@@ -109,8 +112,11 @@ basic.forever(function () {
     }
     if (input.runningTime() - msSpare > 1 * OneBeat && morse != "") {
         letter = morseCodes[morseCodes.indexOf(morse) + 1]
-        iletters += 1
-        hmi.showText0(letter, FontSize0.fs12, iletters % 32 * 15 + 2, 30 * Math.idiv(iletters, 32))
+        if(morse != "......")
+            iletters += 1
+        hmi.showText0(letter, FontSize0.fs12, iletters % 32 * 15 + 2, 30 * Math.idiv(iletters, 32), BackgroundColorMode.drawBackground)
+        if (morse=="......")
+            iletters -= 1
         basic.showString(letter, 1)
         morse = ""
         while (input.runningTime() - msSpare < 3 * OneBeat) {}
